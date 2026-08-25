@@ -13,10 +13,11 @@ embebidos en base64). Se puede abrir localmente o servir desde GitHub Pages.
 | Sección | Qué hace |
 |---|---|
 | Bienvenida | Leyenda de bienvenida + descarga de la agenda en PDF |
-| Elige tu taller | Los 6 talleres simultáneos, ordenables del 1 al 6. Guarda en Supabase |
+| Elige tu taller | Los 6 talleres simultáneos, ordenables del 1 al 6, + restricción alimentaria. Guarda en Supabase |
 | Clima | Pronóstico del 26 de agosto con curva de temperatura por hora |
 | Estacionamiento | Dirección, ligas a Maps/Waze y recomendaciones de traslado |
 | Dress code | Business Casual recomendado |
+| Playlist | Liga a la playlist colaborativa del evento en Spotify |
 | Logística | Descarga de la guía de logística en PDF |
 
 ## Elección de talleres
@@ -49,6 +50,13 @@ los asistentes no quedan expuestos.
 
 Supabase → ADN-Lamosa → Table Editor → `summit_talleres`, ordenado por `creado_en`.
 Columnas `p1`…`p6` traen los talleres en orden de prioridad, listas para exportar a CSV.
+`restriccion_alimentaria` (booleano) y `restriccion_detalle` (texto libre) traen lo que el
+asistente reportó para la cocina.
+
+> **Importante:** corre el bloque `alter table … add column if not exists` de
+> [`supabase.sql`](supabase.sql) antes de publicar. Si esas columnas no existen todavía,
+> la página reintenta el insert sin ellas y guarda la restricción dentro de `origen`
+> (`… | restriccion: sin gluten`) para no perder el dato.
 
 ---
 
